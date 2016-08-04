@@ -1,0 +1,126 @@
+println("******************")
+
+// project的额外属性，这里用于定义profile属性，模拟maven的profile
+ext {
+    if (project.hasProperty('profile')) {
+        profile = project['profile']
+    } else {
+        profile = "home"
+    }
+    println "read profile --> " + profile
+}
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            credentials {
+                username "guest"
+                password "qwerzxcvasdf"
+            }
+            url "http://101.200.170.176:8081/nexus/content/groups/public/"
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+
+apply plugin: 'application'
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'demo'
+    version = '0.1.0'
+}
+
+repositories {
+    maven {
+        credentials {
+            username "guest"
+            password "qwerzxcvasdf"
+        }
+        url "http://101.200.170.176:8081/nexus/content/groups/public/"
+    }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    println "${profile} compile actuator"
+    if(profile != "stable") {
+        println("depend devtools")
+        compile("org.springframework.boot:spring-boot-devtools:${springBootVersion}")
+    } else {
+        println "not compile actuator"
+    }
+    compile("org.springframework.boot:spring-boot-starter-remote-shell:${springBootVersion}")
+    compile('org.apache.thrift:libthrift:0.9.3')
+
+    compile("org.codehaus.groovy:groovy-all:2.4.6")
+    compile ('com.seveniu:web-base:0.0.8')
+    compile('com.seveniu:crawl-sdk:0.0.7')
+    compile('com.seveniu:commons:+')
+
+
+    compile('mysql:mysql-connector-java:5.1.36')
+    compile('com.alibaba:druid:1.0.15')
+
+
+    testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+
+}
+
+compileJava.dependsOn(processResources)
+
+sourceSets {
+    main {
+        resources {
+            srcDir "conf"
+            srcDir "conf-${profile}"
+            srcDir 'cmd'
+            srcDir 'script'
+        }
+    }
+}
+
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+    }
+}
+mainClassName = "com.seveniu.AppDemo"
+
+task wrapper(type: Wrapper) {
+    def version = '2.10'
+    gradleVersion = version
+    distributionUrl = "http://7xnyyx.com1.z0.glb.clouddn.com/gradle-${version}-all.zip"
+}
+
+
+bootRun {
+    // 从 system 参数 中读取
+    String springProfile = System.getProperty("spring.profiles.active")
+    println("system prop spring.profiles.active : ${profile}")
+    //手动设置 jvm 属性
+//    System.setProperty("spring.profiles.active", (String)springProfile)
+    systemProperties.putAt("spring.profiles.active",profile)
+    addResources = true
+}
+
+
+task curProfile << {
+    println("hello ${profile}")
+}
+
+task helloworld << {
+    println("hello world ${name}")
+}
+
+println("====================")

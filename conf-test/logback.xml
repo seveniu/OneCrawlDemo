@@ -1,0 +1,40 @@
+<configuration>
+    <appender name="LOGIN_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>log/login.log</file>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>log/logger.log</file>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.springframework.jdbc" level="INFO" />
+    <logger name="com.seveniu" level="DEBUG" />
+    <logger name="login" level="DEBUG" >
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="LOGIN_FILE" />
+    </logger>
+
+    <!-- turn OFF all logging (children can override) -->
+    <root level="WARN">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+
+</configuration>

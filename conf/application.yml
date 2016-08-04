@@ -1,0 +1,65 @@
+# EMBEDDED SERVER CONFIGURATION (ServerProperties)
+server:
+    port: 9601
+    session:
+        cookie:
+            name: TEMPLATE_SESSION
+#    address:  # bind to a specific NIC
+#    session-timeout:  # session timeout in seconds
+#    context-parameters.*:  # Servlet context init parameters, e.g. server.context-parameters.a=alpha
+#    context-path:  # the context path, defaults to '/'
+#    jsp-servlet.class-name: org.apache.jasper.servlet.JspServlet # The class name of the JSP servlet
+#    jsp-servlet.init-parameters.*:  # Init parameters used to configure the JSP servlet
+#    jsp-servlet.registered: true # Whether or not the JSP servlet is registered
+#    servlet-path:  # the servlet path, defaults to '/'
+#    display-name: xxx # the display name of the application
+
+#spring.view.prefix: templates
+
+#shell.command-path-patterns= # classpath*:/commands/**, classpath*:/crash/commands/**
+shell:
+    auth:
+        simple:
+            user:
+                name: dhlz
+                password: 123
+    ssh:
+        port: 9602
+        enabled: true
+#    command-path-patterns: classpath*:/cmd/** #defalut /commands/**,/crash/commands/**
+
+
+
+
+# ------------ home ------------
+---
+spring:
+  profiles: test
+  datasource:
+      platform: mysql
+      data: schema.sql
+      initialize: true
+  devtools:
+    livereload:
+      port: 9603
+db:
+    url: jdbc:mysql://10.211.55.3:3306/crawl_data?relaxAutoCommit=true&amp;autoCommit=false&amp;zeroDateTimeBehavior=convertToNull&amp;useUnicode=true&amp;autoReconnect=true
+    driver: com.mysql.jdbc.Driver
+    username: xxx
+    password: password
+
+thriftServerPort:
+    port:  9604
+
+crawl:
+  host: 127.0.0.1
+  port: 20003
+consumer:
+  name: demo
+  type: thrift
+  host: 127.0.0.1
+  port: 9605
+
+
+username: onecrawl
+password: onecrawl
