@@ -30,14 +30,14 @@ import java.util.Arrays;
 
 @SpringBootApplication
 @ComponentScan("com.seveniu")
-public class AppDemo {
+public class AppTemplate {
     private static ApplicationContext ctx;
 
     public static ApplicationContext getCtx() {
         return ctx;
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(AppDemo.class);
+    private static final Logger logger = LoggerFactory.getLogger(AppTemplate.class);
 
     @Autowired
     private Environment environment;
@@ -53,9 +53,9 @@ public class AppDemo {
     }
 
     public static void main(String[] args) throws Exception {
-        ctx = SpringApplication.run(AppDemo.class, args);
-        AppDemo appDemo = ctx.getBean(AppDemo.class);
-        appDemo.init();
+        ctx = SpringApplication.run(AppTemplate.class, args);
+        AppTemplate appTemplate = ctx.getBean(AppTemplate.class);
+        appTemplate.init();
     }
 
 }

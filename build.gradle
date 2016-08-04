@@ -95,7 +95,7 @@ idea {
         outputDir = file("$buildDir/classes/main/")
     }
 }
-mainClassName = "com.seveniu.AppDemo"
+mainClassName = "com.seveniu.AppTemplate"
 
 task wrapper(type: Wrapper) {
     def version = '2.10'
